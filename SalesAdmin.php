@@ -8,13 +8,46 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  	<?php
+  		SESSION_START();
+  		$role = $_SESSION['role'];
+  		if($role == 'manager') : 
+  			?>
+	<div class="jumbotron text-center" style="margin-bottom:0; ">
+		<div class="container">
+			<h1 class="display-1">Sales Administrator</h1>
+			<h5>You can add/edit/delete all sales here.</h5>
+			<footer class="blockquote-footer">By <cite title="Source Title">Jorge Villalobos</cite></footer>
+
+		</div>
+	</div>
+
+	<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Home</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="sellerAdmin.php">Seller Admin. <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Features</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="">Log-out</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<?php 
+		endif;
+	?>
 </head>
 <body>
-	<div class="jumbotron text-center">
-		<h1 class="display-1">Sales Administrator</h1>
-		<h5>You can add/edit/delete all sales here.</h5>
-		<footer class="blockquote-footer">By <cite title="Source Title">Jorge Villalobos</cite></footer>
-	</div>
+
 	<div class="container">
 		<table class="table">
 			<thead>

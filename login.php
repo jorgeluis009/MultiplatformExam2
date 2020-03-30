@@ -36,9 +36,22 @@
 
 		   	$sql = "SELECT * FROM users WHERE user = '" . $_POST['userInput'] . "' AND pass = '" . $_POST['passInput']."'";
 		   	
-		  	$result = $conn->query($sql);	
-		   	if($result && $result->num_rows == 1) {
-	   				header("Location: salesadmin.php");
+		  	$result = $conn->query($sql);
+		  	if($result && $result->num_rows == 1) {
+		  		while ($row = mysqli_fetch_assoc($result)) {
+		  			$idT = $row['id'];
+		  			$sql2 = "SELECT managers.userID as id FROM managers where managers.userID = '$idT'";
+		  			$result2 = $conn->query($sql2);
+	  				
+	  				session_start();
+	  				if($result2 && $result2->num_rows > 0) {
+						$_SESSION['role'] = 'manager';
+	  				}
+	  				else{
+	  					$_SESSION['role'] = 'seller';
+	  				}
+		  		}
+   				header("Location: salesadmin.php");
 		   	}
 		   	else {
 	   			echo "User not found";
