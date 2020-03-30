@@ -51,13 +51,13 @@
 							<td class="client"><?php echo $row['client']?></td>
 							<td class="company"><?php echo $row['company']?></td>
 							<td class="concept"><?php echo $row['concept']?></td>
-							<td class="amount"><?php echo $row['amount']?></td>
+							<td class="amount">$<?php echo $row['amount']?></td>
 							<td class="date"><?php echo $row['date']?></td>
 							<td class="validated"><?php echo $row['validated']?></td>
-							 <td><button type="button" class="btn btn-primary edit" value="<?php echo $row['id_cliente'] ?>">
+							<td><button type="button" class="btn btn-primary editBtn" value="<?php echo $row['id'] ?>">
                             Edit</button></td>
-                            <form action="deleteFromDB.php" method="post">
-                            <input type="hidden" name="idT" id="idT" value="<?php echo $row['id_cliente']?>">   
+                            <form action="deleteSale.php" method="post">
+                            	<input type="hidden" name="idT" id="idT" value="<?php echo $row['id']?>">   
                                 <td><button type="submit" class="btn btn-danger deleteBTN">Delete</button></td>
                             </form>
 						</tr>
@@ -73,8 +73,7 @@
 		</table>
 		<div class="text-center">			
 			<button type="button" class="btn btn-success btn-lg btn-lock addBtn">New Sale</button>
-		</div> <br
->
+		</div> 
 		<!-- ****************** MODAL ADD ****************** -->
 		<div class="modal fade" id="AddModal" role="dialog">
 			<div class="modal-dialog">
@@ -95,7 +94,7 @@
 							<label>Concept</label><br>
 							<input class="form-control" type="text" name="ConceptAdd" id="ConceptAddID">   
 							<label>Amount</label><br>
-							<input class="form-control" type="number" name="AmountAdd" id="AmountAddID">   
+							<input class="form-control" type="number" min="0" name="AmountAdd" id="AmountAddID">   
 							<label>Date</label><br>
 							<input class="form-control" type="date" name="DateAdd" id="DateAddID">  
 							<label><strong>Validated</strong></label><br>
@@ -123,6 +122,61 @@
 		</div> 
 		<!-- ****************** END MODAL ADD *************************** -->
 
+		<!-- *************** MODAL EDIT*************** -->
+		<div class="modal fade" id="EditModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">          
+					<div class="modal-header">
+						<h4 class="modal-title">Edit Section</h4>    
+						<button type="button" class="close" data-dismiss="modal">&times;</button>     
+					</div>
+					<form action="storeDB.php" method="post">
+						<div class="modal-body">           
+							<label>Client</label><br>
+							<input class="form-control" type="text" name="clientEdit" id="clientEdit">
+							<label>Company</label><br>
+							<input class="form-control" type="text" name="CompanyEdit" id="CompanyEdit">
+							<label>Concept</label><br>
+							<input class="form-control" type="text" name="ConceptEdit" id="ConceptEdit">   
+							
+								<label>Amount</label><br>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">$</span>
+								</div>
+								<input class="form-control" type="number" min="0" name="amountEdit" id="amountEdit">   
+							</div>
+
+							<label>Date</label><br>
+							<input class="form-control" type="Date" name="dateEdit" id="dateEdit">  
+							<label>Validated</label><br>
+
+							<label><strong>Validated</strong></label><br>
+							
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="radio" class="custom-control-input" id="validateEdit1" value=1 name="ValidatedEdit">
+								<label class="custom-control-label" for="validateEdit1">Yes</label>
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="radio" class="custom-control-input" id="validateEdit0" value=0 name="ValidatedEdit">
+								<label class="custom-control-label" for="validateEdit0">No</label>
+							</div>
+
+							<!-- <input class="form-control" type="text" name="validatedEdit" id="validatedEdit">  
+							<input type="hidden" name="idEdit" id="idEdit"> -->
+						</div>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-success" value="Submit">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div> 
+		<!-- *************** END MODAL EDIT*************** -->
+
 	</div>
 
 
@@ -136,13 +190,13 @@
    	// DOM ready!
    		var addBtn 	  = $(".addBtn");
    		var editBtn   = $(".editBtn");
-   		var deleteBtn = $(".deleteBtn");
 
 		addBtn.on("click", function() {
-			console.log("jeje");
 	   		$('#AddModal').modal('toggle');
-			console.log("jeje2");
-	   		// $('#id').val($(this).val());
+		});
+
+		editBtn.on("click", function() {
+	   		$('#EditModal').modal('toggle');
 		});
 
    });
@@ -150,16 +204,11 @@
    }));
 
 	</script>   
-<!-- Footer -->
+
 <footer class="page-footer font-small blue">
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">Link de Github:
-    <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+  <div class="footer-copyright text-center py-3">Github Link:
+    <a href="https://github.com/jorgeluis009/MultiplatformExam2"> Apps Multiplataforma 2020</a>
   </div>
-  <!-- Copyright -->
-
 </footer>
-<!-- Footer -->
 </body>
 </html>

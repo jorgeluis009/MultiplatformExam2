@@ -38,7 +38,7 @@
 		   	
 		  	$result = $conn->query($sql);	
 		   	if($result && $result->num_rows == 1) {
-	   				echo "User found";
+	   				header("Location: salesadmin.php");
 		   	}
 		   	else {
 	   			echo "User not found";
