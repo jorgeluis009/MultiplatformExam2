@@ -19,6 +19,7 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th scope="col">#</th>
 					<th scope="col">Client</th>
 					<th scope="col">Company</th>
 					<th scope="col">Concept</th>
@@ -48,6 +49,7 @@
 					while ($row = mysqli_fetch_assoc($result)) {
 						?>
 						<tr>
+							<td class="id"><?php echo $row['id']?></td>
 							<td class="client"><?php echo $row['client']?></td>
 							<td class="company"><?php echo $row['company']?></td>
 							<td class="concept"><?php echo $row['concept']?></td>
@@ -56,7 +58,7 @@
 							<td class="validated"><?php echo $row['validated']?></td>
 							<td><button type="button" class="btn btn-primary editBtn" value="<?php echo $row['id'] ?>">
                             Edit</button></td>
-                            <form action="deleteSale.php" method="post">
+                            <form action="deleteSaleFromDB.php" method="post">
                             	<input type="hidden" name="idT" id="idT" value="<?php echo $row['id']?>">   
                                 <td><button type="submit" class="btn btn-danger deleteBTN">Delete</button></td>
                             </form>
@@ -93,11 +95,19 @@
 							<input class="form-control" type="text" name="CompanyAdd" id="CompanyAddID">
 							<label>Concept</label><br>
 							<input class="form-control" type="text" name="ConceptAdd" id="ConceptAddID">   
+							
+						
 							<label>Amount</label><br>
-							<input class="form-control" type="number" min="0" name="AmountAdd" id="AmountAddID">   
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text">$</span>
+								</div>
+								<input class="form-control" type="number"  min="0" name="AmountAdd" id="AmountAddID">   
+							</div>
+
 							<label>Date</label><br>
-							<input class="form-control" type="date" name="DateAdd" id="DateAddID">  
-							<label><strong>Validated</strong></label><br>
+							<input class="form-control" type="date" name="DateAdd" id="DateAddID">  <br>
+							<label>Validated</label><br>
 							
 							<div class="custom-control custom-radio custom-control-inline">
 								<input type="radio" class="custom-control-input" id="validate1" value=1 name="ValidatedAdd">
@@ -108,12 +118,12 @@
 								<label class="custom-control-label" for="validate0">No</label>
 							</div>
 
-							<!-- <input class="form-control" type="number" name="ValidatedAdd" id="ValidatedAddID"> -->
+							<!-- <input class="form-control" type="number" step="10" name="ValidatedAdd" id="ValidatedAddID"> -->
 						</div>
 
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-success" value="Submit">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						</div>
 					</form>
 				</div>
@@ -131,44 +141,40 @@
 						<h4 class="modal-title">Edit Section</h4>    
 						<button type="button" class="close" data-dismiss="modal">&times;</button>     
 					</div>
-					<form action="storeDB.php" method="post">
+					<form action="updateSaleFromDB.php" method="post">
 						<div class="modal-body">           
 							<label>Client</label><br>
-							<input class="form-control" type="text" name="clientEdit" id="clientEdit">
+							<input class="form-control" type="text" name="clientEdit" id="clientEditID">
 							<label>Company</label><br>
-							<input class="form-control" type="text" name="CompanyEdit" id="CompanyEdit">
+							<input class="form-control" type="text" name="companyEdit" id="CompanyEditID">
 							<label>Concept</label><br>
-							<input class="form-control" type="text" name="ConceptEdit" id="ConceptEdit">   
+							<input class="form-control" type="text" name="conceptEdit" id="ConceptEditID">   
 							
-								<label>Amount</label><br>
+							<label>Amount</label><br>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">$</span>
 								</div>
-								<input class="form-control" type="number" min="0" name="amountEdit" id="amountEdit">   
+								<input class="form-control" type="number" min="0" name="amountEdit" id="amountEditID">   
 							</div>
 
 							<label>Date</label><br>
-							<input class="form-control" type="Date" name="dateEdit" id="dateEdit">  
-							<label>Validated</label><br>
-
-							<label><strong>Validated</strong></label><br>
+							<input class="form-control" type="Date" name="dateEdit" id="dateEditID">  <br>
 							
+							<label>Validated</label><br>
 							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" class="custom-control-input" id="validateEdit1" value=1 name="ValidatedEdit">
-								<label class="custom-control-label" for="validateEdit1">Yes</label>
+								<input type="radio" class="custom-control-input" id="validateEdit1ID" value=1 name="validatedEdit">
+								<label class="custom-control-label" for="validateEdit1ID">Yes</label>
 							</div>
 							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" class="custom-control-input" id="validateEdit0" value=0 name="ValidatedEdit">
-								<label class="custom-control-label" for="validateEdit0">No</label>
+								<input type="radio" class="custom-control-input" id="validateEdit0ID" value=0 name="validatedEdit">
+								<label class="custom-control-label" for="validateEdit0ID">No</label>
 							</div>
-
-							<!-- <input class="form-control" type="text" name="validatedEdit" id="validatedEdit">  
-							<input type="hidden" name="idEdit" id="idEdit"> -->
+							<input type="hidden" name="idEdit" id="idEditID"> 
 						</div>
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-success" value="Submit">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						</div>
 					</form>
 
@@ -196,8 +202,30 @@
 		});
 
 		editBtn.on("click", function() {
-	   		$('#EditModal').modal('toggle');
-		});
+			var aux  = $(this).closest("tr").find(".client").text();
+			var aux2 = $(this).closest("tr").find(".company").text();
+			var aux3 = $(this).closest("tr").find(".concept").text();
+			var aux4 = $(this).closest("tr").find(".amount").text();
+			var aux5 = $(this).closest("tr").find(".date").text();
+			var aux6 = $(this).closest("tr").find(".validated").text();
+			var aux7 = $(this).closest("tr").find(".id").text();
+
+			var amount = aux4.substring(1);
+			console.log(aux+' '+aux2+' '+aux3+' '+aux4+ ' '+ aux5+' '+ aux6+' id->'+ aux7);
+			$('#clientEditID').val(aux);
+			$('#CompanyEditID').val(aux2);
+			$('#ConceptEditID').val(aux3);
+			$('#amountEditID').val(amount);
+			$('#dateEditID').val(aux5);
+			if(aux6 == 1)
+				$('#validateEdit1ID').prop("checked", true);
+			else
+				$('#validateEdit0ID').prop("checked", true);
+
+			$('#idEditID').val(aux7);
+
+			$('#EditModal').modal('toggle'); 
+		});		
 
    });
 
