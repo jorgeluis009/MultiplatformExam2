@@ -7,7 +7,9 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 	<div class="jumbotron text-center" style="margin-bottom:0; ">
 		<div class="container">
 			<h3 class="display-1">Seller Administrator For Managers</h3>
@@ -78,7 +80,7 @@
 							<td><button type="button" class="btn btn-primary edit" value="<?php echo $row['id'] ?>">
                             Edit</button></td>
                             <form action="deleteSeller.php" method="post">
-                            <input type="hidden" name="idT" id="idT" value="<?php echo $row['id']?>">   
+                            <input type="hidden" name="idDeleteSeller" value="<?php echo $row['id']?>">   
                                 <td><button type="submit" class="btn btn-danger deleteBTN">Delete</button></td>
                             </form>
 						</tr>
@@ -95,22 +97,27 @@
 		  <div class="pull-right">
             <button type="button" class="btn btn-success btn-lg btn-lock addBtn">Add Seller</button>
         </div>
+
         <!-- ****************** MODAL ADD ****************** -->
         <div class="modal fade" id="AddModal" role="dialog">
         	<div class="modal-dialog">
         		<!-- Modal content-->
         		<div class="modal-content">          
         			<div class="modal-header">
-        				<h4 class="modal-title">Add Sale</h4>
+        				<h4 class="modal-title">Add Seller</h4>
         				<button type="button" class="close" data-dismiss="modal">&times;</button>
 
         			</div>
 
         			<form action="addSaleToDB.php" method="post">
         				<div class="modal-body">           
-        					<label>Client</label><br>
+        					<label>Seller</label><br>
+        					<select id='mySelect' style='width: 200px;'>
+        						<option value='0'>- Search user -</option>
+        					</select><br>
+        					<label>Seller</label><br>
         					<input class="form-control" type="text" name="clientAdd" id="clientAddID">
-        					<label>Company</label><br>
+        					<label>Total</label><br>
         					<input class="form-control" type="text" name="CompanyAdd" id="CompanyAddID">
         					<label>Concept</label><br>
         					<input class="form-control" type="text" name="ConceptAdd" id="ConceptAddID">   
@@ -163,6 +170,29 @@
 	   	var addBtn 	= $(".addBtn");
 	   	var editBtn = $(".editBtn");
 
+		$("#mySelect").select2({
+			// placeholder: '',
+			// allowClear: true,
+			// minimumInputLength: 3,
+			ajax: { 
+				url: "getUsers.php",
+				type: "post",
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					return {
+		      searchTerm: params.term // search term
+			  };
+			},
+				processResults: function (response) {
+					return {
+						results: response
+					};
+				},
+				cache: true
+			}
+		});
+
 	   	addBtn.on("click", function() {
 	   		$('#AddModal').modal('toggle');
 	   	});
@@ -191,7 +221,7 @@
 	   		$('#idEditID').val(aux7);
 
 	   		$('#EditModal').modal('toggle'); 
-   	});		
+   		});		
 
    });
 
