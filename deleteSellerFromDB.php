@@ -10,12 +10,12 @@
 	    die("Connection failed: " . mysqli_connect_error());
 	}	
 
-	$id = $_POST['idT'];
+	$id = $_POST['idDeleteSeller'];
 
     print_r($_POST);
     
-    $deleteQuery = "DELETE from users where id = '$id'";
-    $deleteQuery2 = "DELETE from sellers where userID = '$id'";
+    $deleteQuery = "DELETE FROM `sellers` WHERE `sellers`.`userID` = '$id'";
+
   	print_r($deleteQuery);
 
 	if ($conn->query($deleteQuery)) {
@@ -24,14 +24,9 @@
 	    echo "Error deleting record: " . mysqli_error($conn);
 	}
 
-	if ($conn->query($deleteQuery2)) {
-	    echo "Record deleted successfully";
-	} else {
-	    echo "Error deleting record: " . mysqli_error($conn);
-	}
 
 	mysqli_close($conn);
 
-	header("Location: sellerAdmin.php");
+	header("Location: SellerAdmin.php");
 	die();
 ?>

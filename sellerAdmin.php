@@ -79,7 +79,7 @@
 							<td class="commission">$<?php echo $row['commission']?></td>
 							<td><button type="button" class="btn btn-primary edit" value="<?php echo $row['id'] ?>">
                             Edit</button></td>
-                            <form action="deleteSeller.php" method="post">
+                            <form action="deleteSellerFromDB.php" method="post">
                             <input type="hidden" name="idDeleteSeller" value="<?php echo $row['id']?>">   
                                 <td><button type="submit" class="btn btn-danger deleteBTN">Delete</button></td>
                             </form>
@@ -109,46 +109,16 @@
 
         			</div>
 
-        			<form action="addSaleToDB.php" method="post">
+        			<form action="addSellerToDB.php" method="post">
         				<div class="modal-body">           
-        					<label>Seller</label><br>
-        					<select id='mySelect' style='width: 200px;'>
-        						<option value='0'>- Search user -</option>
+        					<label>User</label><br>
+        					<select id='mySelect' name="idUserAdd" class="form-control" style="width: 100%">
+        						<option></option>
         					</select><br>
-        					<label>Seller</label><br>
-        					<input class="form-control" type="text" name="clientAdd" id="clientAddID">
-        					<label>Total</label><br>
-        					<input class="form-control" type="text" name="CompanyAdd" id="CompanyAddID">
-        					<label>Concept</label><br>
-        					<input class="form-control" type="text" name="ConceptAdd" id="ConceptAddID">   
-
-
-        					<label>Amount</label><br>
-        					<div class="input-group mb-3">
-        						<div class="input-group-prepend">
-        							<span class="input-group-text">$</span>
-        						</div>
-        						<input class="form-control" type="number"  min="0" name="AmountAdd" id="AmountAddID">   
-        					</div>
-
-        					<label>Date</label><br>
-        					<input class="form-control" type="date" name="DateAdd" id="DateAddID">  <br>
-        					<label>Validated</label><br>
-
-        					<div class="custom-control custom-radio custom-control-inline">
-        						<input type="radio" class="custom-control-input" id="validate1" value=1 name="ValidatedAdd">
-        						<label class="custom-control-label" for="validate1">Yes</label>
-        					</div>
-        					<div class="custom-control custom-radio custom-control-inline">
-        						<input type="radio" class="custom-control-input" id="validate0" value=0 name="ValidatedAdd">
-        						<label class="custom-control-label" for="validate0">No</label>
-        					</div>
-
-        					<!-- <input class="form-control" type="number" step="10" name="ValidatedAdd" id="ValidatedAddID"> -->
         				</div>
 
         				<div class="modal-footer">
-        					<input type="submit" class="btn btn-success" value="Submit">
+        					<input type="submit" class="btn btn-success" value="Add Seller">
         					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         				</div>
         			</form>
@@ -171,9 +141,8 @@
 	   	var editBtn = $(".editBtn");
 
 		$("#mySelect").select2({
-			// placeholder: '',
-			// allowClear: true,
-			// minimumInputLength: 3,
+			placeholder: 'Select User',
+			allowClear: true,
 			ajax: { 
 				url: "getUsers.php",
 				type: "post",
