@@ -4,55 +4,91 @@
 	<title>Sales Admin</title>
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
-
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  	
   	<?php
   		SESSION_START();
   		$role = $_SESSION['role'];
-  		if($role == 'manager') : 
+  		$isManager = false;
+  		if($role == 'manager') {
+  			$isManager = true;
+  		}
+
+  		if($isManager):
   			?>
-	<div class="jumbotron text-center" style="margin-bottom:0; ">
-		<div class="container">
-			<h1 class="display-1">Sales Administrator</h1>
-			<h5>You can add/edit/delete all sales here.</h5>
-			<footer class="blockquote-footer">By <cite title="Source Title">Jorge Villalobos</cite></footer>
+			<div class="jumbotron text-center" style="margin-bottom:0; ">
+				<div class="container">
+					<h3 class="display-1">Sales Administrator For Managers</h3>
+					<h5>You can add/edit/delete all sales here.</h5>
+					<footer class="blockquote-footer">By <cite title="Source Title">Jorge Villalobos</cite></footer>
 
-		</div>
-	</div>
+				</div>
+			</div>
 
-	<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">Home</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="sellerAdmin.php">Seller Admin. <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Features</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="">Log-out</a>
-				</li>
-			</ul>
+			<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
+				<a class="navbar-brand" href="#">Home</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" href="sellerAdmin.php">Seller Admin. <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Features</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="login.php">Log-out</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+	<?php else : ?>
+		<div class="jumbotron text-center" style="margin-bottom:0; ">
+			<div class="container">
+				<h3 class="display-1">Sales Administrator For Sellers</h3>
+				<h5>You can view all your sales here dear seller.</h5>
+				<footer class="blockquote-footer">By <cite title="Source Title">Jorge Villalobos</cite></footer>
+			</div>
 		</div>
-	</nav>
-	
-	<?php 
-		endif;
-	?>
+
+		<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Home</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#">Features</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="login.php">Log-out</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<?php 
+	endif;
+		?>
 </head>
 <body>
 
 	<div class="container">
-		<table class="table">
+		<table class="table table-responsive">
 			<thead>
-				<tr>
+				<tr align="center">
 					<th scope="col">#</th>
+					<?php 
+					if($isManager) : 
+					?>
+						<th scope="col">Seller Name</th>
+					<?php 
+					endif;
+					?>
 					<th scope="col">Client</th>
 					<th scope="col">Company</th>
 					<th scope="col">Concept</th>
@@ -80,16 +116,28 @@
 				$result = $conn->query($sql);
 				if($result){
 					while ($row = mysqli_fetch_assoc($result)) {
+			  			$sql2 = "SELECT u.user from sellers s join users u on s.userID = u.id";
+						$result2 = $conn->query($sql2);
+
+						if($result2 && $result2->num_rows > 0) {
+							while ($aux = mysqli_fetch_assoc($result2)) {
 						?>
 						<tr>
-							<td class="id"><?php echo $row['id']?></td>
-							<td class="client"><?php echo $row['client']?></td>
-							<td class="company"><?php echo $row['company']?></td>
-							<td class="concept"><?php echo $row['concept']?></td>
-							<td class="amount">$<?php echo $row['amount']?></td>
-							<td class="date"><?php echo $row['date']?></td>
-							<td class="validated"><?php echo $row['validated']?></td>
-							<td><button type="button" class="btn btn-primary editBtn" value="<?php echo $row['id'] ?>">
+							<td align="center" class="id"><?php echo $row['id']?></td>
+							<?php
+							if($isManager) : 
+							?>
+							<td align="center" class="user"><?php echo $aux['user']?></td>
+							<?php
+							endif;
+							?>
+							<td align="center" class="client"><?php echo $row['client']?></td>
+							<td align="center" class="company"><?php echo $row['company']?></td>
+							<td align="center" class="concept"><?php echo $row['concept']?></td>
+							<td align="center" class="amount">$<?php echo $row['amount']?></td>
+							<td align="center" class="date"><?php echo $row['date']?></td>
+							<td align="center" class="validated"><?php echo $row['validated']?></td>
+							<td align="center"><button type="button" class="btn btn-primary editBtn" value="<?php echo $row['id'] ?>">
                             Edit</button></td>
                             <form action="deleteSaleFromDB.php" method="post">
                             	<input type="hidden" name="idT" id="idT" value="<?php echo $row['id']?>">   
@@ -97,6 +145,9 @@
                             </form>
 						</tr>
 						<?php
+							}
+
+						}
 					}
 				}else{
 					echo "No Results";
@@ -122,6 +173,8 @@
 
 					<form action="addSaleToDB.php" method="post">
 						<div class="modal-body">           
+							<label>ID</label><br>
+							<input class="form-control" type="text" name="idAdd" id="idAddID">
 							<label>Client</label><br>
 							<input class="form-control" type="text" name="clientAdd" id="clientAddID">
 							<label>Company</label><br>
@@ -151,7 +204,7 @@
 								<label class="custom-control-label" for="validate0">No</label>
 							</div>
 
-							<!-- <input class="form-control" type="number" step="10" name="ValidatedAdd" id="ValidatedAddID"> -->
+							<input class="form-control" type="number" step="10" name="ValidatedAdd" id="ValidatedAddID">
 						</div>
 
 						<div class="modal-footer">

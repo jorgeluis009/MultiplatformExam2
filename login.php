@@ -33,6 +33,7 @@
 			{
 		   		die("Fallo la conexion:". mysqli_connect_error());
 			}
+			
 
 		   	$sql = "SELECT * FROM users WHERE user = '" . $_POST['userInput'] . "' AND pass = '" . $_POST['passInput']."'";
 		   	
