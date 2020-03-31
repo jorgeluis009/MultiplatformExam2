@@ -62,7 +62,7 @@
 				$DBName = "admindb";
 
 				$conn = mysqli_connect($Servername,$Username,$Password,$DBName);
-				$sql = "SELECT users.id,users.user, sellers.commission, sellers.totalSales FROM users INNER JOIN Sellers ON Sellers.userID=users.id";
+				$sql = "SELECT sellers.id,users.user, sellers.commission, sellers.totalSales FROM users INNER JOIN Sellers ON Sellers.userID=users.id";
 
 				if(!$conn)
 				{
@@ -73,11 +73,11 @@
 					while ($row = mysqli_fetch_assoc($result)) {
 						?>
 						<tr>
-							<td class="client"><?php echo $row['id']?></td>
+							<td class="idInput"><?php echo $row['id']?></td>
 							<td class="name"><?php echo $row['user']?></td>
-							<td class="name">$<?php echo $row['totalSales']?></td>
-							<td class="commission">$<?php echo $row['commission']?></td>
-							<td><button type="button" class="btn btn-primary edit" value="<?php echo $row['id'] ?>">
+							<td class="totalSalesInput">$<?php echo $row['totalSales']?></td>
+							<td class="commissionInput">$<?php echo $row['commission']?></td>
+							<td><button type="button" class="btn btn-primary editBtn" value="<?php echo $row['id'] ?>">
                             Edit</button></td>
                             <form action="deleteSellerFromDB.php" method="post">
                             <input type="hidden" name="idDeleteSeller" value="<?php echo $row['id']?>">   
@@ -128,7 +128,35 @@
         </div> 
         <!-- ****************** END MODAL ADD *************************** -->
 
-	</div>
+        <!-- *************** MODAL EDIT*************** -->
+        <div class="modal fade" id="EditModal" role="dialog">
+        	<div class="modal-dialog">
+        		<!-- Modal content-->
+        		<div class="modal-content">          
+        			<div class="modal-header">
+        				<h4 class="modal-title">Edit Section</h4>    
+        				<button type="button" class="close" data-dismiss="modal">&times;</button>     
+        			</div>
+        			<form action="updateSellerFromDB.php" method="post">
+        				<div class="modal-body">           
+        					<label>Total Sales</label><br>
+        					<input class="form-control" type="number" name="totalSalesEdit" id="totalSalesEditID">
+        					<label>Commission</label><br>
+        					<input class="form-control" type="number" name="commissionEdit" id="commissionEditID">
+
+        					<input type="hidden" name="idEditSeller" id="idEditID"> 
+        				</div>
+        				<div class="modal-footer">
+        					<input type="submit" class="btn btn-success" value="Submit">
+        					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        				</div>
+        			</form>
+
+        		</div>
+        	</div>
+        </div> 
+        <!-- *************** END MODAL EDIT*************** -->
+    </div>
 	<script>
 
 	(function(init) {
@@ -167,25 +195,14 @@
 	   	});
 
 	   	editBtn.on("click", function() {
-	   		var aux  = $(this).closest("tr").find(".client").text();
-	   		var aux2 = $(this).closest("tr").find(".company").text();
-	   		var aux3 = $(this).closest("tr").find(".concept").text();
-	   		var aux4 = $(this).closest("tr").find(".amount").text();
-	   		var aux5 = $(this).closest("tr").find(".date").text();
-	   		var aux6 = $(this).closest("tr").find(".validated").text();
-	   		var aux7 = $(this).closest("tr").find(".id").text();
+	   		var aux  = $(this).closest("tr").find(".totalSalesInput").text();
+	   		var aux2 = $(this).closest("tr").find(".commissionInput").text();
+	   		var aux7 = $(this).closest("tr").find(".idInput").text();
 
-	   		var amount = aux4.substring(1);
-	   		console.log(aux+' '+aux2+' '+aux3+' '+aux4+ ' '+ aux5+' '+ aux6+' id->'+ aux7);
-	   		$('#clientEditID').val(aux);
-	   		$('#CompanyEditID').val(aux2);
-	   		$('#ConceptEditID').val(aux3);
-	   		$('#amountEditID').val(amount);
-	   		$('#dateEditID').val(aux5);
-	   		if(aux6 == 1)
-	   			$('#validateEdit1ID').prop("checked", true);
-	   		else
-	   			$('#validateEdit0ID').prop("checked", true);
+
+	   		$('#totalSalesEditID').val(aux);
+	   		$('#commissionEditID').val(aux2);
+
 
 	   		$('#idEditID').val(aux7);
 
