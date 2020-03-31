@@ -19,17 +19,17 @@
 
     // $sql = "UPDATE tabla_clientes SET nombre='$nombre', email='$email' WHERE id_cliente='$id'";
     
-    $insertQuery = "INSERT INTO sales (client, company, concept, amount, date, validated) VALUES ('$client','$company','$concept','$amount','$date','$validated');";
+    $insertQuery = "INSERT INTO sales (client, company, userID, concept, amount, date, validated) VALUES ('$client','$company','$id','$concept','$amount','$date','$validated');";
     
     if($validated == 1) {
     	$newCom = $amount/10;
     	$commissionQuery = "SELECT commission from sellers WHERE userID='$id'";
-		$result = $conn->query($sql);
+		$result = $conn->query($commissionQuery);
 
     	while ($row = mysqli_fetch_assoc($result)) {
     		$commission = $row['commission'] + $newCom;
     		$updateQuery = "UPDATE `sellers` SET `commission` = '$commission' WHERE `sellers`.`userID` = '$id';";
-			$result2 = $conn->query($sql);
+			$conn->query($updateQuery);
     	}	
     }
 

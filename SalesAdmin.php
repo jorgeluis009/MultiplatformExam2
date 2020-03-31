@@ -116,18 +116,20 @@
 				$result = $conn->query($sql);
 				if($result){
 					while ($row = mysqli_fetch_assoc($result)) {
-			  			$sql2 = "SELECT u.user from sellers s join users u on s.userID = u.id";
+			  			$sql2 = "SELECT u.user from users u join sellers s on u.id = '".$row['userID']."'";
 						$result2 = $conn->query($sql2);
 
 						if($result2 && $result2->num_rows > 0) {
 							while ($aux = mysqli_fetch_assoc($result2)) {
+								$sellerName = $aux['user'];
+							}
 						?>
 						<tr>
 							<td align="center" class="id"><?php echo $row['id']?></td>
 							<?php
 							if($isManager) : 
 							?>
-							<td align="center" class="user"><?php echo $aux['user']?></td>
+							<td align="center" class="user"><?php echo $sellerName ?></td>
 							<?php
 							endif;
 							?>
@@ -145,7 +147,7 @@
                             </form>
 						</tr>
 						<?php
-							}
+							
 
 						}
 					}
@@ -173,8 +175,8 @@
 
 					<form action="addSaleToDB.php" method="post">
 						<div class="modal-body">           
-							<label>ID</label><br>
-							<input class="form-control" type="text" name="idAdd" id="idAddID">
+							<label>Seller ID</label><br>
+							<input class="form-control" type="number" name="idAdd" id="idAddID">
 							<label>Client</label><br>
 							<input class="form-control" type="text" name="clientAdd" id="clientAddID">
 							<label>Company</label><br>
@@ -202,9 +204,7 @@
 						    <div class="custom-control custom-radio custom-control-inline">
 								<input type="radio" class="custom-control-input" id="validate0" value=0 name="ValidatedAdd">
 								<label class="custom-control-label" for="validate0">No</label>
-							</div>
-
-							<input class="form-control" type="number" step="10" name="ValidatedAdd" id="ValidatedAddID">
+							</div>							
 						</div>
 
 						<div class="modal-footer">
