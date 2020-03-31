@@ -7,11 +7,18 @@
 <body>
 <br>
 <div class="container">
-	<form method="post">
+
+
+
+	<div class="card">
+		<article class="card-body">
+			<h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
+			<hr>
+			<p class="text-success text-center">Please enter your information.</p>
+				<form method="post">
 	  <div class="form-group">
-	    <label for="exampleInputEmail1">Email address</label>
+	    <label for="exampleInputEmail1">Username</label>
 	    <input type="text" class="form-control" name="userInput" aria-describedby="UserHelp" placeholder="Enter user" value="">
-	    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
 	  </div>
 	  <div class="form-group">
 	    <label for="PasswordID">Password</label>
@@ -20,6 +27,9 @@
 
 	  <button type="submit" id="submitID" name="submitBtn" class="btn btn-primary">Submit</button>
 	</form>
+		</article>
+	</div> 
+
 
 	<?php
 		if(isset($_POST['submitBtn'])){
