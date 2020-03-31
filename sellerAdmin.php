@@ -45,7 +45,8 @@
 			<thead>
 				<tr>
 					<th scope="col">#</th>
-					<th scope="col">Name</th>
+					<th scope="col">Seller</th>
+					<th scope="col">Total sales</th>
 					<th scope="col">Commission</th>
 					<th scope="col">Edit</th>
 					<th scope="col">Delete</th>
@@ -59,7 +60,7 @@
 				$DBName = "admindb";
 
 				$conn = mysqli_connect($Servername,$Username,$Password,$DBName);
-				$sql = "SELECT users.id,users.user, sellers.commission FROM users INNER JOIN Sellers ON Sellers.userID=users.id";
+				$sql = "SELECT users.id,users.user, sellers.commission, sellers.totalSales FROM users INNER JOIN Sellers ON Sellers.userID=users.id";
 
 				if(!$conn)
 				{
@@ -72,7 +73,8 @@
 						<tr>
 							<td class="client"><?php echo $row['id']?></td>
 							<td class="name"><?php echo $row['user']?></td>
-							<td class="commission"><?php echo $row['commission']?></td>
+							<td class="name">$<?php echo $row['totalSales']?></td>
+							<td class="commission">$<?php echo $row['commission']?></td>
 							<td><button type="button" class="btn btn-primary edit" value="<?php echo $row['id'] ?>">
                             Edit</button></td>
                             <form action="deleteSeller.php" method="post">
